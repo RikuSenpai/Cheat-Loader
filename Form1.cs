@@ -9,11 +9,23 @@ using System.Windows.Forms;
 using System.Net;
 using System.Diagnostics;
 using System.IO.Compression;
+using System.Security.Cryptography;
 
 namespace HackLoader
 {
     public partial class Form1 : Form
     {
+        static string CalculateMD5(string filename)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filename))
+                {
+                    var hash = md5.ComputeHash(stream);
+                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                }
+            }
+        }
         public static void Clear()
         {
             string[] workFiles = Directory.GetFiles(workDir);
@@ -82,17 +94,31 @@ namespace HackLoader
             Clear();
             ZipFile.ExtractToDirectory(workDir + "\\dlls.zip", workDir);
             Application.Restart();
+            return;
         }
         private void Form1_Load(object sender, EventArgs e)
         {
             if (!File.Exists(workDir + "\\dlls.zip"))
             {
-                
-                DownloadFile("http://timoxa5651.siteme.org/dlls.zip", workDir + "\\dlls.zip");
-                
+                try
+                {
+                    DownloadFile("http://timoxa5651.siteme.org/dlls.zip", workDir + "\\dlls.zip");
+                }
+                catch { }
             }
             else
             {
+                string lastmd5;
+                using (StreamReader strr = new StreamReader(HttpWebRequest.Create(@"http://timoxa5651.siteme.org/md5.txt").GetResponse().GetResponseStream()))
+                lastmd5 = strr.ReadToEnd();
+                string md5 = CalculateMD5(workDir + "\\dlls.zip");
+                if (lastmd5 != md5)
+                {
+                    MessageBox.Show("Вышло обновление, Открой меня снова");
+                    Directory.Delete(workDir, true);
+                    Application.Exit();
+                    return;
+                }
                 Clear();
                 ZipFile.ExtractToDirectory(workDir + "\\dlls.zip", workDir);
                 Form2 sistema = new Form2();
