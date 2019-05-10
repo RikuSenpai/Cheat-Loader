@@ -1,0 +1,12 @@
+
+obj/Debug/HackLoader.csprojAssemblyReference.cache
+.vs/HackLoader/v16/.suo
+.vs/HackLoader/v16/Server/sqlite3/storage.ide-shm
+bin/Debug/app.publish/HackLoader.exe
+*.application
+bin/Debug/HackLoader.exe.manifest
+bin/Debug/HackLoader.pdb
+obj/Debug/HackLoader.application
+obj/Debug/HackLoader.exe
+obj/Debug/HackLoader.exe.manifest
+obj/Debug/HackLoader.pdb
