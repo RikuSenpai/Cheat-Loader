@@ -32,3 +32,5 @@ C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\obj\Debug\Hac
 C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\obj\Debug\HackLoader.application
 C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\obj\Debug\HackLoader.exe
 C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\obj\Debug\HackLoader.pdb
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\obj\Debug\HackLoader.csproj.CopyComplete

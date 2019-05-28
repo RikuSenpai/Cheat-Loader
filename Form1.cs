@@ -102,19 +102,19 @@ namespace HackLoader
             {
                 try
                 {
-                    DownloadFile("http://timoxa5651.siteme.org/dlls.zip", workDir + "\\dlls.zip");
+                    DownloadFile("http://timoxa5651.siteme.org/hackloader/dlls.zip", workDir + "\\dlls.zip");
                 }
                 catch { }
             }
             else
             {
                 string lastmd5;
-                using (StreamReader strr = new StreamReader(HttpWebRequest.Create(@"http://timoxa5651.siteme.org/md5.txt").GetResponse().GetResponseStream()))
+                using (StreamReader strr = new StreamReader(HttpWebRequest.Create(@"http://timoxa5651.siteme.org/hackloader/md5.txt").GetResponse().GetResponseStream()))
                 lastmd5 = strr.ReadToEnd();
                 string md5 = CalculateMD5(workDir + "\\dlls.zip");
                 if (lastmd5 != md5)
                 {
-                    MessageBox.Show("Вышло обновление, Открой меня снова");
+                    MessageBox.Show(Lang.jsonDe.updateNeeded);
                     Directory.Delete(workDir, true);
                     Application.Exit();
                     return;

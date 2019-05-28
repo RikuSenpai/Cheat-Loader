@@ -22,17 +22,21 @@ namespace HackLoader
         {
             string[] workFiles = Directory.GetFiles(workDir);
             string dlls = workDir + "\\dlls.zip";
-            string data = workDir + "\\data.txt";
-            string[] work = new string[workFiles.Length - 2];
+            string rudata = workDir + "\\rudata.txt";
+            string endata = workDir + "\\endata.txt";
+            string[] work = new string[workFiles.Length - 3];
             int i = 0;
             foreach (string file in workFiles)
             {
                 if(file != dlls)
                 {
-                   if(file != data)
+                   if(file != rudata)
                     {
-                        work[i] = file;
-                        i += 1;
+                        if (file != endata)
+                        {
+                            work[i] = file;
+                            i += 1;
+                        }
                     }
                    
                 }
@@ -72,6 +76,7 @@ namespace HackLoader
             CheckCSGO();
             string DllName = "\\" +name + ".dll";
             if (label2.ForeColor == Color.Green){
+                string injmethod = "Unknown";
                 try
                 {
                     Random rn = new Random();
@@ -79,27 +84,38 @@ namespace HackLoader
                     var injector = new Injector();
                     if (value == 1)
                     {
+                        injmethod = "ManualMap";
                         injector.ManualMap("csgo", workDir + DllName);
                     }
                     else if(value == 2)
                     {
+                        injmethod = "CreateRemoteThread";
                         injector.CreateRemoteThread("csgo", workDir + DllName);
                     }
                     else if(value == 3)
                     {
+                        injmethod = "RtlCreateUserThread";
                         injector.RtlCreateUserThread("csgo", workDir + DllName);
                     }
                     else
                     {
+                        injmethod = "CreateRemoteThread";
                         injector.CreateRemoteThread("csgo", workDir + DllName);
                     }
-                    injector.EraseDllHeaders("csgo", workDir + DllName);
-                    label1.Text = "OK";
+                    try
+                    {
+                        injector.EraseDllHeaders("csgo", workDir + DllName);
+                        label1.Text = "OK (1)";
+                    }
+                    catch
+                    {
+                        label1.Text = "OK (0)";
+                    }
                     return true;
                 }
                 catch
                 {
-                    label1.Text = "Ошибка инжекта...";
+                    label1.Text = Lang.jsonDe.injErr + injmethod;
                     return false;
                 }
             }
@@ -119,6 +135,11 @@ namespace HackLoader
             else if (name == "pphud")
             {
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\PPHUD Free\\";
+                Directory.CreateDirectory(droppath);
+            }
+            else if (name == "Interception")
+            {
+                droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Interception\\";
                 Directory.CreateDirectory(droppath);
             }
             else if (name == "M0ne0N")
@@ -164,7 +185,7 @@ namespace HackLoader
             }
             else
             {
-                MessageBox.Show("Конфиг не найден:( Скачайте новую версию <3");
+                MessageBox.Show(Lang.jsonDe.nocfg);
                 return;
             }
             string[] needFiles = Directory.GetFiles(workDir + "\\cfg\\" + name + "\\");
@@ -235,7 +256,7 @@ namespace HackLoader
             else
             {
                 label2.ForeColor = Color.Red;
-                label1.Text = "Где CSGO?";
+                label1.Text = Lang.jsonDe.nocsgo;
             }
             
         }
@@ -244,6 +265,11 @@ namespace HackLoader
         {
             Form3 f3 = new Form3();
             f3.ShowDialog();
+        }
+
+        private void Label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
