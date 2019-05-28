@@ -26,7 +26,16 @@ namespace HackLoader
 
         private void Form3_Load(object sender, EventArgs e)
         {
-            string[] lines = File.ReadAllLines(workDir + "\\data.txt", Encoding.Default);
+            string lan = Lang.GetLang();
+            string[] lines;
+            if (lan == "ru")
+            {
+               lines = File.ReadAllLines(workDir + "\\rudata.txt", Encoding.Default);
+            }
+            else
+            {
+                lines = File.ReadAllLines(workDir + "\\endata.txt", Encoding.Default);
+            }
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < lines.Length; i++)
             {
