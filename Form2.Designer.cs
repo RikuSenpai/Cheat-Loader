@@ -19,7 +19,7 @@
             }
             base.Dispose(disposing);
         }
-
+        
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -56,7 +56,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(275, 29);
             this.label1.TabIndex = 1;
-            this.label1.Text = Lang.jsonDe.selectcheat;
+            this.label1.Text = "Выберите чит";
             this.label1.Click += new System.EventHandler(this.Label1_Click);
             // 
             // label2
@@ -78,7 +78,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(91, 12);
             this.label3.TabIndex = 3;
-            this.label3.Text = Lang.jsonDe.deleteall;
+            this.label3.Text = "Удалить дллки";
             this.label3.Click += new System.EventHandler(this.Label3_Click);
             // 
             // button1
@@ -99,7 +99,7 @@
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(149, 17);
             this.checkBox1.TabIndex = 5;
-            this.checkBox1.Text = Lang.jsonDe.closeafter;
+            this.checkBox1.Text = "Закрыть после инжекта";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // checkBox2
@@ -110,7 +110,7 @@
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(117, 22);
             this.checkBox2.TabIndex = 6;
-            this.checkBox2.Text = Lang.jsonDe.loadcfg;
+            this.checkBox2.Text = "Установить кфг";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // label4
@@ -121,7 +121,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(50, 20);
             this.label4.TabIndex = 7;
-            this.label4.Text = Lang.jsonDe.click;
+            this.label4.Text = "Клик";
             this.label4.Click += new System.EventHandler(this.Label4_Click);
             // 
             // Form2
@@ -142,7 +142,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form2";
-            this.Text = "Hack Loader";
+            this.Text = "Hack Loader // yougame.biz";
             this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

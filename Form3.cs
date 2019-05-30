@@ -26,9 +26,8 @@ namespace HackLoader
 
         private void Form3_Load(object sender, EventArgs e)
         {
-            string lan = Lang.GetLang();
             string[] lines;
-            if (lan == "ru")
+            if (Form2.IsEn == false)
             {
                lines = File.ReadAllLines(workDir + "\\rudata.txt", Encoding.Default);
             }

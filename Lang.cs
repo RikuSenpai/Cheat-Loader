@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -12,24 +11,35 @@ namespace HackLoader
 {
     class Lang
     {
-        public static string GetLang() {
+        public static string GetLang()
+        {
             CultureInfo ci = CultureInfo.InstalledUICulture;
             if (ci.Name.Contains("ru"))
             {
                 return "ru";
             }
-            else {
+            else
+            {
                 return "en";
             }
 
         }
-        private static string GetJson() {
-            string str;
-            using (StreamReader strr = new StreamReader(HttpWebRequest.Create(@"http://timoxa5651.siteme.org/hackloader/json.php?lang=" + GetLang()).GetResponse().GetResponseStream()))
-                str = System.Text.RegularExpressions.Regex.Unescape(strr.ReadToEnd());
-            return str;
-        }
-        public static dynamic jsonDe = JsonConvert.DeserializeObject(GetJson());
+        public static Dictionary<string, string> lang = new Dictionary<string, string>
+        {
+            {"loading", "Downloading files..."},
+            {"unload", "Unload first cheat before starting another"},
+            {"success", "Success!"},
+            {"updateNeeded", "New update! Open me again"},
+            {"injErr", "Inject failed.. Method: "},
+            {"nocfg", "No cfg found, download latest version"},
+            {"notfound", "Cant find that hack"},
+            {"nocsgo", "No CS:GO found"},
+            {"selectcheat", "Select cheat"},
+            {"deleteall", "Delete all files"},
+            {"closeafter", "Close after inject"},
+            {"loadcfg", "Load cfg(!if you dont have!)"},
+            {"click", "Click!"},
+        };
     }
-
 }
+
