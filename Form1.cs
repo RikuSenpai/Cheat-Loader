@@ -59,6 +59,13 @@ namespace HackLoader
             InitializeComponent();
             Directory.CreateDirectory(workDir);
         }
+        public void ChangeLang()
+        {
+            if (Form2.IsEn == true)
+            {
+                this.label1.Text = Lang.lang["loading"];
+            }
+        }
         WebClient webClient;
         readonly Stopwatch sw = new Stopwatch();
         public void DownloadFile(string urlAddress, string location)
@@ -90,11 +97,11 @@ namespace HackLoader
         private void Completed(object sender, AsyncCompletedEventArgs e)
         {
             sw.Reset();
-            label1.Text = "Успешно!";
+            label1.Text = "Success!";
             Clear();
             ZipFile.ExtractToDirectory(workDir + "\\dlls.zip", workDir);
             Application.Restart();
-            return;
+            Environment.Exit(0);
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -102,19 +109,29 @@ namespace HackLoader
             {
                 try
                 {
-                    DownloadFile("http://timoxa5651.siteme.org/hackloader/dlls.zip", workDir + "\\dlls.zip");
+                    DownloadFile("http://timoxa5651.siteme.org/hackloader/v2/dlls.zip", workDir + "\\dlls.zip");
                 }
-                catch { }
+                catch {
+                    MessageBox.Show("Error DOWNLOAD");
+                    Environment.Exit(0);
+                }
             }
             else
             {
                 string lastmd5;
-                using (StreamReader strr = new StreamReader(HttpWebRequest.Create(@"http://timoxa5651.siteme.org/hackloader/md5.txt").GetResponse().GetResponseStream()))
+                using (StreamReader strr = new StreamReader(HttpWebRequest.Create(@"http://timoxa5651.siteme.org/hackloader/v2/md5.txt").GetResponse().GetResponseStream()))
                 lastmd5 = strr.ReadToEnd();
                 string md5 = CalculateMD5(workDir + "\\dlls.zip");
                 if (lastmd5 != md5)
                 {
-                    MessageBox.Show(Lang.jsonDe.updateNeeded);
+                    if(Form2.IsEn == true)
+                    {
+                        MessageBox.Show(Lang.lang["updateNeeded"].ToString());
+                    }
+                    else
+                    {
+                        MessageBox.Show("Вышло обновление, перезапусти меня");
+                    }
                     Directory.Delete(workDir, true);
                     Application.Exit();
                     return;

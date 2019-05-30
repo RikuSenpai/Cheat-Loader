@@ -16,6 +16,7 @@ namespace HackLoader
 {
     public partial class Form2 : Form
     {
+        public static bool IsEn = false;
         public static string workDir = Environment.ExpandEnvironmentVariables("%AppData%\\Files");
         private static readonly string[] workFiles = Createfiles();
         public static string[] Createfiles()
@@ -58,7 +59,18 @@ namespace HackLoader
         public Form2()
         {
             InitializeComponent();
-            
+            ChangeLang();
+        }
+        public void ChangeLang()
+        {
+            if (Form2.IsEn == true)
+            {
+                this.label1.Text = Lang.lang["selectcheat"];
+                this.label3.Text = Lang.lang["deleteall"];
+                this.checkBox1.Text = Lang.lang["closeafter"];
+                this.checkBox2.Text = Lang.lang["loadcfg"];
+                this.label4.Text = Lang.lang["click"];
+            }
         }
         private void Form2_Load(object sender, EventArgs e)
         {
@@ -115,7 +127,15 @@ namespace HackLoader
                 }
                 catch
                 {
-                    label1.Text = Lang.jsonDe.injErr + injmethod;
+                    if(Form2.IsEn == true)
+                    {
+                        label1.Text = Lang.lang["injErr"] + injmethod;
+                    }
+                    else
+                    {
+                        label1.Text = "Ошибка, метод: " + injmethod;
+                    }
+                    
                     return false;
                 }
             }
@@ -142,14 +162,14 @@ namespace HackLoader
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Interception\\";
                 Directory.CreateDirectory(droppath);
             }
-            else if (name == "M0ne0N")
-            {
-                droppath = @"C:\M0ne0N Free\";
-                Directory.CreateDirectory(droppath);
-            }
             else if (name == "1tapgang")
             {
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\1tapgang\\";
+                Directory.CreateDirectory(droppath);
+            }
+            else if (name == "stickrpg")
+            {
+                droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\stickrpg\\";
                 Directory.CreateDirectory(droppath);
             }
             else if (name == "ferrum")
@@ -163,14 +183,9 @@ namespace HackLoader
                 Directory.CreateDirectory(droppath);
                 MessageBox.Show("При закрытии консоли ксго тоже закроется..");
             }
-            else if(name == "publish.cc")
+            else if (name == "samoware")
             {
-                droppath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\PUBLISH\\";
-                Directory.CreateDirectory(droppath);
-            }
-            else if(name == "iccluded")
-            {
-                droppath = @"C:\Iccluded\";
+                droppath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\samoware\\";
                 Directory.CreateDirectory(droppath);
             }
             else if(name == "xy0")
@@ -178,14 +193,17 @@ namespace HackLoader
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\xyo\\";
                 Directory.CreateDirectory(droppath);
             }
-            else if(name == "postal")
-            {
-                droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\postal_cheat\\";
-                Directory.CreateDirectory(droppath);
-            }
             else
             {
-                MessageBox.Show(Lang.jsonDe.nocfg);
+                if (Form2.IsEn == true)
+                {
+                  MessageBox.Show(Lang.lang["nocfg"].ToString());
+
+                }
+                else
+                {
+                    MessageBox.Show("Не найден кфг");
+                }
                 return;
             }
             string[] needFiles = Directory.GetFiles(workDir + "\\cfg\\" + name + "\\");
@@ -256,7 +274,8 @@ namespace HackLoader
             else
             {
                 label2.ForeColor = Color.Red;
-                label1.Text = Lang.jsonDe.nocsgo;
+                if (Form2.IsEn == true) { label1.Text = Lang.lang["nocsgo"]; }
+                else { label1.Text = "Где CSGO?"; }
             }
             
         }

@@ -28,13 +28,13 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe Script", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Font = new System.Drawing.Font("Sitka Banner", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.label1.Location = new System.Drawing.Point(91, 22);
+            this.label1.Location = new System.Drawing.Point(176, 26);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(341, 46);
+            this.label1.Size = new System.Drawing.Size(140, 42);
             this.label1.TabIndex = 0;
-            this.label1.Text = Lang.jsonDe.loading;
+            this.label1.Text = "Загрузка...";
             // 
             // progressBar
             // 
@@ -65,7 +65,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Text = "Hack Loader";
+            this.Text = "Hack Loader // yougame.biz";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

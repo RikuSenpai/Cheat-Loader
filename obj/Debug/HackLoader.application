@@ -4,7 +4,7 @@
   <description asmv2:publisher="HackLoader" asmv2:product="HackLoader" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <deployment install="true" mapFileExtensions="true" />
   <compatibleFrameworks xmlns="urn:schemas-microsoft-com:clickonce.v2">
-    <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
+    <framework targetVersion="4.5.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
     <dependentAssembly dependencyType="install" codebase="HackLoader.exe.manifest" size="4178">
@@ -14,7 +14,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>e3ut1tgAzsNLtLq2wRW6H8NnZwYNlfWc6I/WZ11Vblc=</dsig:DigestValue>
+        <dsig:DigestValue>OD8ZBeF2Qvl9fhLZhoH3N3z2IhartNptPKh9Fziw2ww=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
