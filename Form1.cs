@@ -2,34 +2,32 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.IO;
 using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using System.Net;
-using System.Diagnostics;
+using System.IO;
 using System.IO.Compression;
-using System.Security.Cryptography;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace HackLoader
+namespace Hack_Loader2
 {
     public partial class Form1 : Form
     {
-        static string CalculateMD5(string filename)
+        readonly static internal string workDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HackLoader\\";
+        readonly static string ver = "2.0.1";
+        public static string json = Web.Get("http://timoxa5651.siteme.org/hackloader/v2.0.1/json.php");
+        public Form1()
         {
-            using (var md5 = MD5.Create())
-            {
-                using (var stream = File.OpenRead(filename))
-                {
-                    var hash = md5.ComputeHash(stream);
-                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-                }
-            }
+            Json.Deserialize();
+            InitializeComponent();
+            Nodes();
         }
-        public static void Clear()
+        public static void Clean()
         {
             string[] workFiles = Directory.GetFiles(workDir);
-            string dlls = workDir + "\\dlls.zip";
+            string dlls = workDir + "dlls.zip";
             int i = 0;
             try
             {
@@ -53,96 +51,158 @@ namespace HackLoader
                 }
             }
         }
-        public static string workDir = Environment.ExpandEnvironmentVariables("%AppData%\\Files");
-        public Form1()
-        {
-            InitializeComponent();
-            Directory.CreateDirectory(workDir);
-        }
-        public void ChangeLang()
-        {
-            if (Form2.IsEn == true)
-            {
-                this.label1.Text = Lang.lang["loading"];
-            }
-        }
-        WebClient webClient;
-        readonly Stopwatch sw = new Stopwatch();
-        public void DownloadFile(string urlAddress, string location)
-        {
-            using (webClient = new WebClient())
-            {
-                webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-                webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
 
-                Uri URL = new Uri(urlAddress);
-
-                sw.Start();
-
-                try
-                {
-                    webClient.DownloadFileAsync(URL, location);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-        }
-        private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            progressBar.Value = e.ProgressPercentage;
-            labelPerc.Text = e.ProgressPercentage.ToString() + "%";
-        }
-        private void Completed(object sender, AsyncCompletedEventArgs e)
-        {
-            sw.Reset();
-            label1.Text = "Success!";
-            Clear();
-            ZipFile.ExtractToDirectory(workDir + "\\dlls.zip", workDir);
-            Application.Restart();
-            Environment.Exit(0);
-        }
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (!File.Exists(workDir + "\\dlls.zip"))
+            
+            
+            bool DllsOk = false;
+            try
             {
-                try
+                if (File.Exists(workDir + "dlls.zip"))
                 {
-                    DownloadFile("http://timoxa5651.siteme.org/hackloader/v2/dlls.zip", workDir + "\\dlls.zip");
-                }
-                catch {
-                    MessageBox.Show("Error DOWNLOAD");
-                    Environment.Exit(0);
-                }
-            }
-            else
-            {
-                string lastmd5;
-                using (StreamReader strr = new StreamReader(HttpWebRequest.Create(@"http://timoxa5651.siteme.org/hackloader/v2/md5.txt").GetResponse().GetResponseStream()))
-                lastmd5 = strr.ReadToEnd();
-                string md5 = CalculateMD5(workDir + "\\dlls.zip");
-                if (lastmd5 != md5)
-                {
-                    if(Form2.IsEn == true)
+                    if (Helper.IsLast(Helper.GetMd5(workDir + "dlls.zip")))
                     {
-                        MessageBox.Show(Lang.lang["updateNeeded"].ToString());
+                        DllsOk = true;
                     }
                     else
                     {
-                        MessageBox.Show("Вышло обновление, перезапусти меня");
+                        if (Web.DownloadFile(@"http://timoxa5651.siteme.org/hackloader/v2.0.1/dlls.zip", workDir + "dlls.zip"))
+                        {
+                            DllsOk = true;
+                        }
+                        else
+                        {
+                            DllsOk = false;
+                        }
                     }
-                    Directory.Delete(workDir, true);
-                    Application.Exit();
-                    return;
-                }
-                Clear();
-                ZipFile.ExtractToDirectory(workDir + "\\dlls.zip", workDir);
-                Form2 sistema = new Form2();
-                sistema.ShowDialog();
-                Application.Exit();
-                
+
+                } //Load
+                else
+                {
+                    Directory.CreateDirectory(workDir);
+                    if (Web.DownloadFile(@"http://timoxa5651.siteme.org/hackloader/v2.0.1/dlls.zip", workDir + "dlls.zip"))
+                    {
+                        DllsOk = true;
+                    }
+                    else
+                    {
+                        DllsOk = false;
+                    }
+
+                } //Load
             }
+            catch (WebException)
+            {
+                MessageBox.Show("Cant connect/download");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error on 1st check" + "\n" + ex);
+            } //Download
+
+
+            Clean();
+            try
+            {
+                ZipFile.ExtractToDirectory(workDir + "\\dlls.zip", workDir);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Cant extract dlls" + "\n" + ex);
+                Environment.Exit(0);
+            }
+
+
+            // Second check
+            bool rd2 = Helper.CountCheck();
+            if (!rd2 && DllsOk)
+            {
+                MessageBox.Show("Error on 2nd check, try again");
+                Directory.Delete(workDir, true);
+                Environment.Exit(0);
+            }
+
         }
+
+        private void Main_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (main.SelectedNode.Parent == null)
+            {
+                button1.Enabled = false;
+                label4.Visible = false;
+                label5.Visible = false;
+                return;
+            } //if not cheat
+            label4.Visible = true;
+            label5.Visible = true;
+            int vac = -1;
+            int unt = -1;
+            foreach (Json.Rage arr in Json.Main.rage)
+            {
+                if(arr.name == e.Node.Name)
+                {
+                    vac = Convert.ToInt16(arr.vac);
+                    unt = Convert.ToInt16(arr.untrusted);
+                }
+            } //rage
+            if(vac == -1)
+            {
+                foreach (Json.Legit arr in Json.Main.legit)
+                {
+                    if (arr.name == e.Node.Name)
+                    {
+                        vac = Convert.ToInt16(arr.vac);
+                        unt = Convert.ToInt16(arr.untrusted);
+                    }
+                }
+
+            } //legit
+            if(vac == 0)
+            {
+                label4.Text = "Undetected";
+                label4.ForeColor = Color.Green;
+            }
+            else if(vac == 2)
+            {
+                label4.Text = "Detected";
+                label4.ForeColor = Color.Red;
+            }
+            else
+            {
+                label4.Text = "Unknown";
+                label4.ForeColor = Color.Yellow;
+            }
+            if (unt == 0)
+            {
+                label5.Text = "Undetected";
+                label5.ForeColor = Color.Green;
+            }
+            else if (unt == 2)
+            {
+                label5.Text = "Detected";
+                label5.ForeColor = Color.Red;
+            }
+            else
+            {
+                label5.Text = "Unknown";
+                label5.ForeColor = Color.Yellow;
+            }
+            button1.Enabled = true;
+            
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            label1.Text  = CSGO.Injectt(main.SelectedNode.Name, checkBox1.Checked);
+            if(label1.Text == "OK")
+            {
+                label1.ForeColor = Color.Green;
+            }
+            else
+            {
+                label1.ForeColor = Color.Red;
+            }
+        } // Inject button
     }
 }

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанных со сборкой.
-[assembly: AssemblyTitle("HackLoader")]
+[assembly: AssemblyTitle("Hack-Loader2")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("HackLoader")]
+[assembly: AssemblyProduct("Hack-Loader2")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("ee00c464-fd05-47d0-a300-98169e9f47f3")]
+[assembly: Guid("f5f67080-5be1-4fe7-916e-44b3c98faa40")]
 
 // Сведения о версии сборки состоят из указанных ниже четырех значений:
 //
