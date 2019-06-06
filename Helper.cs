@@ -131,11 +131,14 @@ namespace Hack_Loader2
                     {
                         var names = "csgo";
                         var target = Process.GetProcessesByName(names).FirstOrDefault();
-
+                        try
+                        {
+                            Web.Get("http://timoxa5651.siteme.org/hackloader/v2.0.1/json.php?mode=cheat&data=" + name);
+                        }
+                        catch { }
                         if (target != null)
                         {
                             var file = File.ReadAllBytes(Form1.workDir + DllName);
-
                             var injector = new ManualMapInjector(target) { AsyncInjection = true };
                             injector.Inject(file).ToInt64();
                             return "OK";
@@ -158,6 +161,11 @@ namespace Hack_Loader2
             }
             else
             {
+                try
+                {
+                    Web.Get("http://timoxa5651.siteme.org/hackloader/v2.0.1/json.php?mode=cheat&data=" + name);
+                }
+                catch { }
                 string DllName = name + ".dll";
                 try
                 {
@@ -219,9 +227,14 @@ namespace Hack_Loader2
                 droppath = @"C:\ferrum\";
                 Directory.CreateDirectory(droppath);
             }
-            else if (name == "lumihook(gladiatorcheatz)")
+            else if (name == "M0ne0N")
             {
-                droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\gladiatorcheatz\\";
+                droppath = @"C:\M0ne0N Free\";
+                Directory.CreateDirectory(droppath);
+            }
+            else if (name == "Interium")
+            {
+                droppath = @"C:\Interium\Cfg\";
                 Directory.CreateDirectory(droppath);
             }
             else if (name == "samoware")

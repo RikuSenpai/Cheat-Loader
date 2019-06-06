@@ -16,7 +16,7 @@ namespace Hack_Loader2
     public partial class Form1 : Form
     {
         readonly static internal string workDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HackLoader\\";
-        readonly static string ver = "2.0.1";
+        readonly static string ver = "2.0.3";
         public static string json = Web.Get("http://timoxa5651.siteme.org/hackloader/v2.0.1/json.php");
         public Form1()
         {
@@ -54,8 +54,7 @@ namespace Hack_Loader2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
-            
+            checkBox2.Checked = true;
             bool DllsOk = false;
             try
             {
@@ -194,9 +193,19 @@ namespace Hack_Loader2
 
         private void Button1_Click(object sender, EventArgs e)
         {
+            if (!File.Exists(workDir + main.SelectedNode.Name + ".dll"))
+            {
+                MessageBox.Show("Длл не найден... Что-то не так");
+                return;
+            }
+            
             label1.Text  = CSGO.Injectt(main.SelectedNode.Name, checkBox1.Checked);
             if(label1.Text == "OK")
             {
+                if (checkBox2.Checked)
+                {
+                    Environment.Exit(0);
+                }
                 label1.ForeColor = Color.Green;
             }
             else
