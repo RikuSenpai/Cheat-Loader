@@ -65,6 +65,7 @@ namespace Hack_Loader2
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -148,7 +149,7 @@ namespace Hack_Loader2
             // 
             this.button1.BackColor = System.Drawing.Color.DarkGray;
             this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(144, 298);
+            this.button1.Location = new System.Drawing.Point(144, 252);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(169, 24);
             this.button1.TabIndex = 4;
@@ -160,7 +161,7 @@ namespace Hack_Loader2
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(-1, 304);
+            this.label1.Location = new System.Drawing.Point(-1, 258);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(56, 18);
             this.label1.TabIndex = 5;
@@ -170,19 +171,31 @@ namespace Hack_Loader2
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBox1.Location = new System.Drawing.Point(144, 272);
+            this.checkBox1.Location = new System.Drawing.Point(185, 229);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(88, 20);
             this.checkBox1.TabIndex = 6;
             this.checkBox1.Text = "Load CFG";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkBox2.Location = new System.Drawing.Point(15, 229);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(126, 20);
+            this.checkBox2.TabIndex = 7;
+            this.checkBox2.Text = "Close After Inject";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGray;
-            this.ClientSize = new System.Drawing.Size(315, 322);
+            this.ClientSize = new System.Drawing.Size(315, 275);
+            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
@@ -190,8 +203,8 @@ namespace Hack_Loader2
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(331, 361);
-            this.MinimumSize = new System.Drawing.Size(331, 361);
+            this.MaximumSize = new System.Drawing.Size(331, 314);
+            this.MinimumSize = new System.Drawing.Size(331, 314);
             this.Name = "Form1";
             this.Text = "Hack Loader // yougame.biz";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -212,6 +225,7 @@ namespace Hack_Loader2
         private Label label4;
         private Label label1;
         private CheckBox checkBox1;
+        private CheckBox checkBox2;
     }
 }
 
