@@ -45,7 +45,7 @@ $cart = array(
 	),
 	array(
 	 "name" => "M0ne0N",
-      "vac" => 0,
+      "vac" => 2,
       "untrusted" => 0	
 	),
 	array(
@@ -55,10 +55,10 @@ $cart = array(
 	)
 	));
  
-echo json_encode( $cart );
-$file="base.log";
-$col_zap=100000;
+echo json_encode( $cart ); //отправить json
 
+include("config.php");
+//collect ip
 function getRealIpAddr() {
   if (!empty($_SERVER['HTTP_CLIENT_IP']))
   { $ip=$_SERVER['HTTP_CLIENT_IP']; }
@@ -69,51 +69,46 @@ function getRealIpAddr() {
 }
 
 $ip = getRealIpAddr();
-$date = date("H:i:s d.m.Y");
-$home = json_decode(file_get_contents("http://ip-api.com/json/".$ip), true);
-$lines = file($file);
-$ip = substr_replace($ip,'X',-2)."X";
-while(count($lines) > $col_zap) array_shift($lines);
-$lines[] = $date."|".$ip."|".$home["country"]."|\r\n";
-file_put_contents($file, $lines);
+$ip = "X".substr($ip, 1, -1)."X";
+//insert to db
+$res = mysqli_query($db, "SELECT count(*) FROM test WHERE ip = '$ip'") or die();
+$row = mysqli_fetch_row($res);
+if ($row[0] > 0)
+{
+    // не 1 раз зашел
+	mysqli_query($db, "UPDATE test SET count=count+1 WHERE ip='$ip'");
+}
+else
+{
+	//1 раз
+    mysqli_query($db, "INSERT INTO test SET ip='$ip', count = '1'");
+}
+
+
+
 }
 else if($_REQUEST["mode"] == "ip"){
 	include("config.php");
-	$db->query("TRUNCATE TABLE test");
-	foreach(file('base.log') as $str){
-		$count = 1;
-		$arr = explode("|", $str);
-		$date = $arr[0];
-		$ip = substr_replace($arr[1],'X',-2)."X";
-		$country = $arr[2];
-		mysqli_query($db, "INSERT INTO test SET ip='$ip', date='$date', country='$country'");
-
-	}
 	
-	$result = $db->query("SELECT * FROM test");
-	$cart = array();
-	
-	while($row = $result->fetch_assoc()){
-		$ip = $row['ip'];
-		$count = $cart[$ip];
-		$cart[$ip] = $count+1;
-		
-	}
+	$result = mysqli_query($db, "SELECT * FROM test");
+	$count = 0;
 	echo "<table><tbody>";
-	arsort($cart);
-	foreach($cart as $ip => $count){
-		echo "<tr><td>".$ip."</td><td>".$count."</td></tr>";
+	while($row = $result->fetch_assoc()){
+		echo "<tr><td>".$row['ip']."</td><td>".$row['count']."</td></tr>";
+		$count += $row['count'];
 		
 	}
-	echo "</tbody></table>";
-	$sum = 0;
-	foreach($cart as $ip => $count){
-		$sum += $count;
-	}
-	echo "USERS ".count($cart)." / COUNT ".$sum;
+	echo "</tbody></table><hr/>";
+	echo "TOTAL ".$count;
 	
 }
 else if($_REQUEST['mode'] == "cheat"){
+	echo"
+	<style>
+   td {
+    font-size: 150%;
+   } 
+  </style>";
 	include("config.php");
 	if($_REQUEST['data'] == null){
 	$result = mysqli_query($db, "SELECT * FROM cheats");

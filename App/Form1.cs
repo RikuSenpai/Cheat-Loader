@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
@@ -16,7 +17,7 @@ namespace Hack_Loader2
     public partial class Form1 : Form
     {
         readonly static internal string workDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HackLoader\\";
-        readonly static string ver = "2.0.3";
+        readonly static string ver = "2.1";
         public static string json = Web.Get("http://timoxa5651.siteme.org/hackloader/v2.0.1/json.php");
         public Form1()
         {
@@ -198,8 +199,16 @@ namespace Hack_Loader2
                 MessageBox.Show("Длл не найден... Что-то не так");
                 return;
             }
-            
-            label1.Text  = CSGO.Injectt(main.SelectedNode.Name, checkBox1.Checked);
+            var names = "csgo";
+            var target = Process.GetProcessesByName(names).FirstOrDefault();
+            if (target != null)
+            {
+                label1.Text = CSGO.InjecttUnsafe(main.SelectedNode.Name, checkBox1.Checked);
+            }
+            else
+            {
+                label1.Text = CSGO.InjecttSafe(main.SelectedNode.Name, checkBox1.Checked);
+            }
             if(label1.Text == "OK")
             {
                 if (checkBox2.Checked)

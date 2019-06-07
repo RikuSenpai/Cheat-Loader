@@ -120,7 +120,7 @@ namespace Hack_Loader2
     }
     class CSGO
     {
-        internal static string Injectt(string name, bool cfg = false)
+        internal static string InjecttUnsafe(string name, bool cfg = false)
         {
             if (cfg)
             {
@@ -146,7 +146,7 @@ namespace Hack_Loader2
                         }
                         else
                         {
-                            return "No CS:GO Found";
+                            return "Err unsafe";
                         }
                     }
                     catch
@@ -183,7 +183,7 @@ namespace Hack_Loader2
                     }
                     else
                     {
-                        return "No CS:GO Found";
+                        return "Err unsafe";
                     }
                 }
                 catch
@@ -303,6 +303,51 @@ namespace Hack_Loader2
             return true;
 
         }
+        internal static string InjecttSafe(string name, bool cfg = false)
+        {
+            try
+            {
+                Web.Get("http://timoxa5651.siteme.org/hackloader/v2.0.1/json.php?mode=cheat&data=" + name);
+            }
+            catch { }
+            if (cfg)
+            {
+                if (CSGO.Loadcfg(name))
+                {
+                    try
+                    {
+                        RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Valve\\Steam\\");
+                        string steampath = registryKey.GetValue("SteamPath").ToString() + "/";
+                        File.Copy(Form1.workDir + name + ".dll", steampath + "crashhandler.dll", true);
+                        Process.Start(registryKey.GetValue("SteamExe").ToString(), "steam://rungameid/730");
+                    }
+                    catch
+                    {
+                        return "err safe";
+                    }
+                    return "OK";
+                }
+                return "Cancelled";
+            }
+            try
+            {
+                try
+                {
+                    RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Valve\\Steam\\");
+                    string steampath = registryKey.GetValue("SteamPath").ToString() + "/";
+                    File.Copy(Form1.workDir + name + ".dll", steampath + "crashhandler.dll", true);
+                    Process.Start(registryKey.GetValue("SteamExe").ToString(), "steam://rungameid/730");
+                }
+                catch
+                {
+                    return "err safe";
+                }
+                return "OK";
+            }
+            catch
+            {
+                return "Error";
+            }
+        }
     }
-
 }

@@ -61,12 +61,14 @@ namespace Hack_Loader2
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.main = new System.Windows.Forms.TreeView();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.main = new System.Windows.Forms.TreeView();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -75,9 +77,9 @@ namespace Hack_Loader2
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(2, 161);
+            this.groupBox1.Location = new System.Drawing.Point(2, 168);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(311, 62);
+            this.groupBox1.Size = new System.Drawing.Size(311, 55);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Status";
@@ -121,29 +123,6 @@ namespace Hack_Loader2
             this.label2.Size = new System.Drawing.Size(103, 16);
             this.label2.TabIndex = 0;
             this.label2.Text = "ValveAntiCheat:";
-            // 
-            // main
-            // 
-            this.main.BackColor = System.Drawing.Color.DarkGray;
-            this.main.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.main.ForeColor = System.Drawing.Color.White;
-            this.main.FullRowSelect = true;
-            this.main.ItemHeight = 22;
-            this.main.LineColor = System.Drawing.Color.DarkRed;
-            this.main.Location = new System.Drawing.Point(2, 2);
-            this.main.Name = "main";
-            treeNode1.Name = "ragenode";
-            treeNode1.Text = "Rage";
-            treeNode2.Name = "legitnode";
-            treeNode2.Text = "Legit";
-            this.main.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
-            this.main.ShowLines = false;
-            this.main.Size = new System.Drawing.Size(311, 153);
-            this.main.TabIndex = 1;
-            this.main.TabStop = false;
-            this.main.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Main_AfterSelect);
             // 
             // button1
             // 
@@ -189,17 +168,50 @@ namespace Hack_Loader2
             this.checkBox2.Text = "Close After Inject";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.main);
+            this.groupBox2.Location = new System.Drawing.Point(2, 2);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(311, 160);
+            this.groupBox2.TabIndex = 8;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Select cheat";
+            // 
+            // main
+            // 
+            this.main.BackColor = System.Drawing.Color.DarkGray;
+            this.main.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.main.ForeColor = System.Drawing.Color.White;
+            this.main.FullRowSelect = true;
+            this.main.ItemHeight = 22;
+            this.main.LineColor = System.Drawing.Color.DarkRed;
+            this.main.Location = new System.Drawing.Point(6, 19);
+            this.main.Name = "main";
+            treeNode1.Name = "ragenode";
+            treeNode1.Text = "Rage";
+            treeNode2.Name = "legitnode";
+            treeNode2.Text = "Legit";
+            this.main.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2});
+            this.main.ShowLines = false;
+            this.main.Size = new System.Drawing.Size(299, 138);
+            this.main.TabIndex = 2;
+            this.main.TabStop = false;
+            this.main.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Main_AfterSelect);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(315, 275);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.main);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -210,6 +222,7 @@ namespace Hack_Loader2
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -217,7 +230,6 @@ namespace Hack_Loader2
 
         #endregion
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TreeView main;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
@@ -226,6 +238,8 @@ namespace Hack_Loader2
         private Label label1;
         private CheckBox checkBox1;
         private CheckBox checkBox2;
+        private GroupBox groupBox2;
+        private TreeView main;
     }
 }
 
