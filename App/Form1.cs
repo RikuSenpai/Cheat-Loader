@@ -18,7 +18,8 @@ namespace Hack_Loader2
     {
         readonly static internal string workDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HackLoader\\";
         readonly static string ver = "2.1";
-        public static string json = Web.Get("http://timoxa5651.siteme.org/hackloader/v2.0.1/json.php");
+        readonly static internal string link = "http://timoxa5651.siteme.org/hackloader/v2.0.1/";
+        public static string json = Web.Get(link + "json.php");
         public Form1()
         {
             Json.Deserialize();
@@ -51,7 +52,7 @@ namespace Hack_Loader2
                     i += 1;
                 }
             }
-        }
+        } //Clear files
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -67,7 +68,7 @@ namespace Hack_Loader2
                     }
                     else
                     {
-                        if (Web.DownloadFile(@"http://timoxa5651.siteme.org/hackloader/v2.0.1/dlls.zip", workDir + "dlls.zip"))
+                        if (Web.DownloadFile(link + "dlls.zip", workDir + "dlls.zip"))
                         {
                             DllsOk = true;
                         }
@@ -81,7 +82,7 @@ namespace Hack_Loader2
                 else
                 {
                     Directory.CreateDirectory(workDir);
-                    if (Web.DownloadFile(@"http://timoxa5651.siteme.org/hackloader/v2.0.1/dlls.zip", workDir + "dlls.zip"))
+                    if (Web.DownloadFile(link+"dlls.zip", workDir + "dlls.zip"))
                     {
                         DllsOk = true;
                     }
@@ -190,7 +191,7 @@ namespace Hack_Loader2
             }
             button1.Enabled = true;
             
-        }
+        } //After cheat select
 
         private void Button1_Click(object sender, EventArgs e)
         {

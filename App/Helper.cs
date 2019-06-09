@@ -75,6 +75,21 @@ namespace Hack_Loader2
     }
     class Web
     {
+        public static bool CheckForInternetConnection()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                using (client.OpenRead(Form1.link))
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public static string Get(string url)
         {
             string str;
@@ -284,7 +299,7 @@ namespace Hack_Loader2
         {
             try
             {
-                Web.Get("http://timoxa5651.siteme.org/hackloader/v2.0.1/json.php?mode=cheat&data=" + name);
+                Web.Get(Form1.link+"json.php?mode=cheat&data=" + name);
             }
             catch { }
             if (cfg)
