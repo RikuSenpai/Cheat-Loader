@@ -95,12 +95,6 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
-    <Compile Include="Injection\Definitions.cs" />
-    <Compile Include="Injection\Helpers.cs" />
-    <Compile Include="Injection\Imports.cs" />
-    <Compile Include="Injection\ManagedPtr.cs" />
-    <Compile Include="Injection\Injector.cs" />
-    <Compile Include="Injection\PDefinitions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

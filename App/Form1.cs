@@ -199,11 +199,18 @@ namespace Hack_Loader2
                 MessageBox.Show("Длл не найден... Что-то не так");
                 return;
             }
-            var names = "csgo";
-            var target = Process.GetProcessesByName(names).FirstOrDefault();
-            if (target != null)
+            if (Helper.IsProcess("csgo"))
             {
-                label1.Text = CSGO.InjecttUnsafe(main.SelectedNode.Name, checkBox1.Checked);
+                try
+                {
+                    Process[] proc = Process.GetProcessesByName("csgo");
+                    foreach(Process pro in proc)
+                    {
+                        pro.Kill();
+                    }
+                }
+                catch { }
+                label1.Text = CSGO.InjecttSafe(main.SelectedNode.Name, checkBox1.Checked);
             }
             else
             {

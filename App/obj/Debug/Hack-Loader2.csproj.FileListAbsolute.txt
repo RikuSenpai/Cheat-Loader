@@ -1,0 +1,17 @@
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack-Loader2.csprojAssemblyReference.cache
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack_Loader2.Form1.resources
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack_Loader2.Properties.Resources.resources
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack-Loader2.csproj.GenerateResource.cache
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack-Loader2.csproj.CoreCompileInputs.cache
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\bin\Debug\Hack-Loader2.exe.config
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\bin\Debug\Hack-Loader2.exe.manifest
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\bin\Debug\Hack-Loader2.application
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\bin\Debug\Hack-Loader2.exe
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\bin\Debug\Hack-Loader2.pdb
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack-Loader2.csproj.Fody.CopyLocal.cache
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack-Loader2.exe.manifest
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack-Loader2.application
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack-Loader2.csproj.CopyComplete
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack-Loader2.exe
+C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack-Loader2.pdb

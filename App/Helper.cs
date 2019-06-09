@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
-using ManualMapInjection.Injection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,6 +16,13 @@ namespace Hack_Loader2
 {
     class Helper
     {
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
         public static bool IsLast(string md5)
         {
             string res = Json.data.md5;
@@ -51,6 +57,19 @@ namespace Hack_Loader2
                 return true;
             }
             return false;
+        }
+
+        public static bool IsProcess(string name)
+        {
+            var target = Process.GetProcessesByName(name).FirstOrDefault();
+            if (target == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         
     }
@@ -94,12 +113,14 @@ namespace Hack_Loader2
         {
             data = JsonConvert.DeserializeObject<Main>(Form1.json);
         }
-
+#pragma warning disable IDE1006 // Стили именования
         internal class Rage
         {
             public string name { get; set; }
             public string vac { get; set; }
+
             public string untrusted { get; set; }
+
         }
         internal class Legit
         {
@@ -117,81 +138,10 @@ namespace Hack_Loader2
             [JsonProperty("legit")]
             public static List<Legit> legit { get; set; }
         }
+#pragma warning restore IDE1006 // Стили именования
     }
     class CSGO
     {
-        internal static string InjecttUnsafe(string name, bool cfg = false)
-        {
-            if (cfg)
-            {
-                if (CSGO.Loadcfg(name))
-                {
-                    string DllName = name + ".dll";
-                    try
-                    {
-                        var names = "csgo";
-                        var target = Process.GetProcessesByName(names).FirstOrDefault();
-                        try
-                        {
-                            Web.Get("http://timoxa5651.siteme.org/hackloader/v2.0.1/json.php?mode=cheat&data=" + name);
-                        }
-                        catch { }
-                        if (target != null)
-                        {
-                            var file = File.ReadAllBytes(Form1.workDir + DllName);
-                            var injector = new ManualMapInjector(target) { AsyncInjection = true };
-                            injector.Inject(file).ToInt64();
-                            return "OK";
-
-                        }
-                        else
-                        {
-                            return "Err unsafe";
-                        }
-                    }
-                    catch
-                    {
-                        return "Error";
-                    }
-                }
-                else
-                {
-                    return "Cancelled";
-                }
-            }
-            else
-            {
-                try
-                {
-                    Web.Get("http://timoxa5651.siteme.org/hackloader/v2.0.1/json.php?mode=cheat&data=" + name);
-                }
-                catch { }
-                string DllName = name + ".dll";
-                try
-                {
-                    var names = "csgo";
-                    var target = Process.GetProcessesByName(names).FirstOrDefault();
-
-                    if (target != null)
-                    {
-                        var file = File.ReadAllBytes(Form1.workDir + DllName);
-
-                        var injector = new ManualMapInjector(target) { AsyncInjection = true };
-                        injector.Inject(file).ToInt64();
-                        return "OK";
-
-                    }
-                    else
-                    {
-                        return "Err unsafe";
-                    }
-                }
-                catch
-                {
-                    return "Error";
-                }
-            }
-        }
         internal static string GetCfgPath(string name)
         {
             string droppath;
@@ -303,6 +253,33 @@ namespace Hack_Loader2
             return true;
 
         }
+        private static string InjSafe(string name)
+        {
+            if (!Helper.IsProcess("Steam"))
+            {
+                return "Open Steam first";
+            }
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Valve\\Steam\\");
+            string steampath = registryKey.GetValue("SteamPath").ToString() + "/";
+            try
+            {
+                File.Move(steampath + "crashhandler.dll", steampath+ Helper.RandomString(11)+".dll");
+            }
+            catch {
+                return "Rename err";
+            }
+            try
+            {
+                File.Copy(Form1.workDir + name + ".dll", steampath + "crashhandler.dll", true);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return "Copy err";
+            }
+            Process.Start(registryKey.GetValue("SteamExe").ToString(), "steam://rungameid/730");
+            return "OK";
+        }
         internal static string InjecttSafe(string name, bool cfg = false)
         {
             try
@@ -314,35 +291,13 @@ namespace Hack_Loader2
             {
                 if (CSGO.Loadcfg(name))
                 {
-                    try
-                    {
-                        RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Valve\\Steam\\");
-                        string steampath = registryKey.GetValue("SteamPath").ToString() + "/";
-                        File.Copy(Form1.workDir + name + ".dll", steampath + "crashhandler.dll", true);
-                        Process.Start(registryKey.GetValue("SteamExe").ToString(), "steam://rungameid/730");
-                    }
-                    catch
-                    {
-                        return "err safe";
-                    }
-                    return "OK";
+                    return InjSafe(name);
                 }
                 return "Cancelled";
             }
             try
             {
-                try
-                {
-                    RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Valve\\Steam\\");
-                    string steampath = registryKey.GetValue("SteamPath").ToString() + "/";
-                    File.Copy(Form1.workDir + name + ".dll", steampath + "crashhandler.dll", true);
-                    Process.Start(registryKey.GetValue("SteamExe").ToString(), "steam://rungameid/730");
-                }
-                catch
-                {
-                    return "err safe";
-                }
-                return "OK";
+                return InjSafe(name);
             }
             catch
             {
