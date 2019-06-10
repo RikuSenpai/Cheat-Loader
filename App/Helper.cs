@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using System.Management;
 
 namespace Hack_Loader2
 {
@@ -71,7 +72,23 @@ namespace Hack_Loader2
                 return true;
             }
         }
-        
+        public static List<string> ListInstalledAntivirusProducts()
+        {
+            List<string> list = new List<string>();
+            using (var searcher = new ManagementObjectSearcher(@"\\" +
+                                                Environment.MachineName +
+                                                @"\root\SecurityCenter2",
+                                                "SELECT * FROM AntivirusProduct"))
+            {
+                var searcherInstance = searcher.Get();
+                foreach (var instance in searcherInstance)
+                {
+                    list.Add(instance["displayName"].ToString());
+                }
+            }
+            return list;
+        }
+
     }
     class Web
     {

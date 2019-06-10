@@ -102,15 +102,21 @@ namespace Hack_Loader2
                 MessageBox.Show("Error on 1st check" + "\n" + ex);
             } //Download
 
-
-            Clean();
+            try
+            {
+                Clean();
+            }
+            catch(Exception exx)
+            {
+                Program.Crash(exx, "Clean err");
+            }
             try
             {
                 ZipFile.ExtractToDirectory(workDir + "\\dlls.zip", workDir);
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Cant extract dlls" + "\n" + ex);
+                Program.Crash(ex, "Cant extract dlls");
                 Environment.Exit(0);
             }
 
