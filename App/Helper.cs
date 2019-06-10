@@ -7,16 +7,23 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
-using ManualMapInjection.Injection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using System.Management;
 
 namespace Hack_Loader2
 {
     class Helper
     {
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
         public static bool IsLast(string md5)
         {
             string res = Json.data.md5;
@@ -52,10 +59,54 @@ namespace Hack_Loader2
             }
             return false;
         }
-        
+
+        public static bool IsProcess(string name)
+        {
+            var target = Process.GetProcessesByName(name).FirstOrDefault();
+            if (target == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        public static List<string> ListInstalledAntivirusProducts()
+        {
+            List<string> list = new List<string>();
+            using (var searcher = new ManagementObjectSearcher(@"\\" +
+                                                Environment.MachineName +
+                                                @"\root\SecurityCenter2",
+                                                "SELECT * FROM AntivirusProduct"))
+            {
+                var searcherInstance = searcher.Get();
+                foreach (var instance in searcherInstance)
+                {
+                    list.Add(instance["displayName"].ToString());
+                }
+            }
+            return list;
+        }
+
     }
     class Web
     {
+        public static bool CheckForInternetConnection()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                using (client.OpenRead(Form1.link))
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public static string Get(string url)
         {
             string str;
@@ -94,12 +145,14 @@ namespace Hack_Loader2
         {
             data = JsonConvert.DeserializeObject<Main>(Form1.json);
         }
-
+#pragma warning disable IDE1006 // Стили именования
         internal class Rage
         {
             public string name { get; set; }
             public string vac { get; set; }
+
             public string untrusted { get; set; }
+
         }
         internal class Legit
         {
@@ -117,81 +170,10 @@ namespace Hack_Loader2
             [JsonProperty("legit")]
             public static List<Legit> legit { get; set; }
         }
+#pragma warning restore IDE1006 // Стили именования
     }
     class CSGO
     {
-        internal static string Injectt(string name, bool cfg = false)
-        {
-            if (cfg)
-            {
-                if (CSGO.Loadcfg(name))
-                {
-                    string DllName = name + ".dll";
-                    try
-                    {
-                        var names = "csgo";
-                        var target = Process.GetProcessesByName(names).FirstOrDefault();
-                        try
-                        {
-                            Web.Get("http://timoxa5651.siteme.org/hackloader/v2.0.1/json.php?mode=cheat&data=" + name);
-                        }
-                        catch { }
-                        if (target != null)
-                        {
-                            var file = File.ReadAllBytes(Form1.workDir + DllName);
-                            var injector = new ManualMapInjector(target) { AsyncInjection = true };
-                            injector.Inject(file).ToInt64();
-                            return "OK";
-
-                        }
-                        else
-                        {
-                            return "No CS:GO Found";
-                        }
-                    }
-                    catch
-                    {
-                        return "Error";
-                    }
-                }
-                else
-                {
-                    return "Cancelled";
-                }
-            }
-            else
-            {
-                try
-                {
-                    Web.Get("http://timoxa5651.siteme.org/hackloader/v2.0.1/json.php?mode=cheat&data=" + name);
-                }
-                catch { }
-                string DllName = name + ".dll";
-                try
-                {
-                    var names = "csgo";
-                    var target = Process.GetProcessesByName(names).FirstOrDefault();
-
-                    if (target != null)
-                    {
-                        var file = File.ReadAllBytes(Form1.workDir + DllName);
-
-                        var injector = new ManualMapInjector(target) { AsyncInjection = true };
-                        injector.Inject(file).ToInt64();
-                        return "OK";
-
-                    }
-                    else
-                    {
-                        return "No CS:GO Found";
-                    }
-                }
-                catch
-                {
-                    return "Error";
-                }
-            }
-        }
         internal static string GetCfgPath(string name)
         {
             string droppath;
@@ -303,6 +285,56 @@ namespace Hack_Loader2
             return true;
 
         }
+        private static string InjSafe(string name)
+        {
+            if (!Helper.IsProcess("Steam"))
+            {
+                return "Open Steam first";
+            }
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Valve\\Steam\\");
+            string steampath = registryKey.GetValue("SteamPath").ToString() + "/";
+            try
+            {
+                File.Move(steampath + "crashhandler.dll", steampath+ Helper.RandomString(11)+".dll");
+            }
+            catch {
+                return "Rename err";
+            }
+            try
+            {
+                File.Copy(Form1.workDir + name + ".dll", steampath + "crashhandler.dll", true);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return "Copy err";
+            }
+            Process.Start(registryKey.GetValue("SteamExe").ToString(), "steam://rungameid/730");
+            return "OK";
+        }
+        internal static string InjecttSafe(string name, bool cfg = false)
+        {
+            try
+            {
+                Web.Get(Form1.link+"json.php?mode=cheat&data=" + name);
+            }
+            catch { }
+            if (cfg)
+            {
+                if (CSGO.Loadcfg(name))
+                {
+                    return InjSafe(name);
+                }
+                return "Cancelled";
+            }
+            try
+            {
+                return InjSafe(name);
+            }
+            catch
+            {
+                return "Error";
+            }
+        }
     }
-
 }

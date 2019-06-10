@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Hack-Loader2.exe" size="356864">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Hack-Loader2.exe" size="357888">
       <assemblyIdentity name="Hack-Loader2" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>xdhad1u4qZqM6UgTZyASB7bcLiP1jok7Q20IQfn9Ydo=</dsig:DigestValue>
+        <dsig:DigestValue>UMeuGfAZpkkmKSMin9E+QAX1SC8VcNI3ey6ykHvB534=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

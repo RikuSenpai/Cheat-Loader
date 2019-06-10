@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
@@ -16,8 +17,9 @@ namespace Hack_Loader2
     public partial class Form1 : Form
     {
         readonly static internal string workDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HackLoader\\";
-        readonly static string ver = "2.0.3";
-        public static string json = Web.Get("http://timoxa5651.siteme.org/hackloader/v2.0.1/json.php");
+        readonly static string ver = "2.1";
+        readonly static internal string link = "http://timoxa5651.siteme.org/hackloader/v2.0.1/";
+        public static string json = Web.Get(link + "json.php");
         public Form1()
         {
             Json.Deserialize();
@@ -50,7 +52,7 @@ namespace Hack_Loader2
                     i += 1;
                 }
             }
-        }
+        } //Clear files
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -66,7 +68,7 @@ namespace Hack_Loader2
                     }
                     else
                     {
-                        if (Web.DownloadFile(@"http://timoxa5651.siteme.org/hackloader/v2.0.1/dlls.zip", workDir + "dlls.zip"))
+                        if (Web.DownloadFile(link + "dlls.zip", workDir + "dlls.zip"))
                         {
                             DllsOk = true;
                         }
@@ -80,7 +82,7 @@ namespace Hack_Loader2
                 else
                 {
                     Directory.CreateDirectory(workDir);
-                    if (Web.DownloadFile(@"http://timoxa5651.siteme.org/hackloader/v2.0.1/dlls.zip", workDir + "dlls.zip"))
+                    if (Web.DownloadFile(link+"dlls.zip", workDir + "dlls.zip"))
                     {
                         DllsOk = true;
                     }
@@ -100,15 +102,21 @@ namespace Hack_Loader2
                 MessageBox.Show("Error on 1st check" + "\n" + ex);
             } //Download
 
-
-            Clean();
+            try
+            {
+                Clean();
+            }
+            catch(Exception exx)
+            {
+                Program.Crash(exx, "Clean err");
+            }
             try
             {
                 ZipFile.ExtractToDirectory(workDir + "\\dlls.zip", workDir);
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Cant extract dlls" + "\n" + ex);
+                Program.Crash(ex, "Cant extract dlls");
                 Environment.Exit(0);
             }
 
@@ -189,7 +197,7 @@ namespace Hack_Loader2
             }
             button1.Enabled = true;
             
-        }
+        } //After cheat select
 
         private void Button1_Click(object sender, EventArgs e)
         {
@@ -198,8 +206,23 @@ namespace Hack_Loader2
                 MessageBox.Show("Длл не найден... Что-то не так");
                 return;
             }
-            
-            label1.Text  = CSGO.Injectt(main.SelectedNode.Name, checkBox1.Checked);
+            if (Helper.IsProcess("csgo"))
+            {
+                try
+                {
+                    Process[] proc = Process.GetProcessesByName("csgo");
+                    foreach(Process pro in proc)
+                    {
+                        pro.Kill();
+                    }
+                }
+                catch { }
+                label1.Text = CSGO.InjecttSafe(main.SelectedNode.Name, checkBox1.Checked);
+            }
+            else
+            {
+                label1.Text = CSGO.InjecttSafe(main.SelectedNode.Name, checkBox1.Checked);
+            }
             if(label1.Text == "OK")
             {
                 if (checkBox2.Checked)
