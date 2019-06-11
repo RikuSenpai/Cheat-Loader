@@ -182,52 +182,42 @@ namespace Hack_Loader2
                 RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Valve\\Steam\\");
                 droppath = registryKey.GetValue("steampath").ToString();
                 droppath += "\\steamapps\\common\\Counter-Strike Global Offensive\\";
-                Directory.CreateDirectory(droppath);
             }
             else if (name == "pphud")
             {
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\PPHUD Free\\";
-                Directory.CreateDirectory(droppath);
             }
             else if (name == "Interception")
             {
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Interception\\";
-                Directory.CreateDirectory(droppath);
             }
             else if (name == "1tapgang")
             {
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\1tapgang\\";
-                Directory.CreateDirectory(droppath);
             }
             else if (name == "stickrpg")
             {
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\stickrpg\\";
-                Directory.CreateDirectory(droppath);
             }
             else if (name == "ferrum")
             {
                 droppath = @"C:\ferrum\";
-                Directory.CreateDirectory(droppath);
             }
             else if (name == "M0ne0N")
             {
                 droppath = @"C:\M0ne0N Free\";
-                Directory.CreateDirectory(droppath);
             }
             else if (name == "Interium")
             {
                 droppath = @"C:\Interium\Cfg\";
-                Directory.CreateDirectory(droppath);
             }
             else if (name == "samoware")
             {
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\samoware\\";
-                Directory.CreateDirectory(droppath);
             }
             else if (name == "xy0")
             {
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\xyo\\";
-                Directory.CreateDirectory(droppath);
             }
             else
             {
@@ -250,6 +240,15 @@ namespace Hack_Loader2
                 {
                     return true;
                 }
+            }
+            try
+            {
+                Directory.CreateDirectory(droppath);
+            }
+            catch(Exception ex)
+            {
+                Program.Crash(ex, "On directory create cfg");
+                return true;
             }
             string[] needFiles = Directory.GetFiles(Form1.workDir + "\\cfg\\" + name + "\\");
             foreach (string fil in needFiles)
@@ -323,7 +322,15 @@ namespace Hack_Loader2
             {
                 if (CSGO.Loadcfg(name))
                 {
-                    return InjSafe(name);
+                    try
+                    {
+                        return InjSafe(name);
+                    }
+                    catch(Exception e)
+                    {
+                        Program.Crash(e, "On inject");
+                        return "Error";
+                    }
                 }
                 return "Cancelled";
             }
@@ -331,8 +338,9 @@ namespace Hack_Loader2
             {
                 return InjSafe(name);
             }
-            catch
+            catch(Exception e)
             {
+                Program.Crash(e, "On inject");
                 return "Error";
             }
         }

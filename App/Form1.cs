@@ -28,29 +28,31 @@ namespace Hack_Loader2
         }
         public static void Clean()
         {
-            string[] workFiles = Directory.GetFiles(workDir);
-            string dlls = workDir + "dlls.zip";
-            int i = 0;
+            string[] files = Directory.GetFiles(workDir, "*.dll", SearchOption.TopDirectoryOnly);
+            foreach (string str in files)
+            {
+                try
+                {
+                    File.Delete(str);
+                }
+                catch
+                {
+                    MessageBox.Show("Delete err. Выгрузите старый чит сначала!");
+                    Environment.Exit(0);
+                }
+            }
             try
             {
-                Directory.Delete(workDir + "\\cfg", true);
+                Directory.Delete(workDir + "cfg", true);
             }
-            catch { }
-            foreach (string file in workFiles)
+            catch (DirectoryNotFoundException)
             {
-                if (file != dlls)
-                {
-                    try
-                    {
-                        File.Delete(file);
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Выгрузите старый чит прежде чем загружать новый!");
-                        Environment.Exit(0);
-                    }
-                    i += 1;
-                }
+
+            }
+            catch
+            {
+                MessageBox.Show("Delete err. Возможно мешает антивирус");
+                Environment.Exit(0);
             }
         } //Clear files
 
