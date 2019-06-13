@@ -296,8 +296,12 @@ namespace Hack_Loader2
             {
                 File.Move(steampath + "crashhandler.dll", steampath+ Helper.RandomString(11)+".dll");
             }
+            catch (IOException)
+            {
+
+            }
             catch {
-                return "Rename err";
+                return "Rename steam err";
             }
             try
             {

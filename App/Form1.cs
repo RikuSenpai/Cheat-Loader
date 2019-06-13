@@ -17,7 +17,7 @@ namespace Hack_Loader2
     public partial class Form1 : Form
     {
         readonly static internal string workDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HackLoader\\";
-        readonly static string ver = "2.1";
+        readonly static string ver = "2.1.2";
         readonly static internal string link = "http://timoxa5651.siteme.org/hackloader/v2.0.1/";
         public static string json = Web.Get(link + "json.php");
         public Form1()
@@ -139,10 +139,16 @@ namespace Hack_Loader2
             if (main.SelectedNode.Parent == null)
             {
                 button1.Enabled = false;
+                button2.Enabled = true;
                 label4.Visible = false;
                 label5.Visible = false;
                 return;
             } //if not cheat
+            else
+            {
+                checkBox1.Enabled = true;
+                button2.Enabled = false;
+            }
             label4.Visible = true;
             label5.Visible = true;
             int vac = -1;
@@ -238,5 +244,70 @@ namespace Hack_Loader2
                 label1.ForeColor = Color.Red;
             }
         } // Inject button
+        private void Button2_Click(object sender, EventArgs e) // Custom dll button
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "DLL Files (*.dll)|*.dll|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
+                string filePath ="";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    filePath = openFileDialog.FileName.ToString();
+                }
+                if (!filePath.EndsWith(".dll"))
+                {
+                    label1.Text = "Not a dll";
+                    label1.ForeColor = Color.Red;
+                    return;
+                }
+                checkBox1.Enabled = false;
+                try
+                {
+                    File.Copy(filePath, workDir + Path.GetFileName(filePath), false);
+                }
+                catch
+                {
+                    label1.Text = "Copy err";
+                    label1.ForeColor = Color.Red;
+                    checkBox1.Enabled = true;
+                    return;
+                }
+
+                if (Helper.IsProcess("csgo"))
+                {
+                    try
+                    {
+                        Process[] proc = Process.GetProcessesByName("csgo");
+                        foreach (Process pro in proc)
+                        {
+                            pro.Kill();
+                        }
+                    }
+                    catch { }
+                    label1.Text = CSGO.InjecttSafe(Path.GetFileNameWithoutExtension(filePath), checkBox1.Checked);
+                    File.Delete(workDir + Path.GetFileName(filePath));
+                }
+                else
+                {
+                    label1.Text = CSGO.InjecttSafe(Path.GetFileNameWithoutExtension(filePath), checkBox1.Checked);
+                    File.Delete(workDir + Path.GetFileName(filePath));
+                }
+                if (label1.Text == "OK")
+                {
+                    if (checkBox2.Checked)
+                    {
+                        Environment.Exit(0);
+                    }
+                    label1.ForeColor = Color.Green;
+                }
+                else
+                {
+                    label1.ForeColor = Color.Red;
+                }
+            }
+        } 
     }
 }
