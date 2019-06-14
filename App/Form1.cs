@@ -16,15 +16,17 @@ namespace Hack_Loader2
 {
     public partial class Form1 : Form
     {
+        // ОБНОВИТЬ ВЕБ ЧАСТЬ!!! ДОБАВЛЕН MERCURY
         readonly static internal string workDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HackLoader\\";
-        readonly static string ver = "2.1";
-        readonly static internal string link = "http://timoxa5651.siteme.org/hackloader/v2.0.1/";
-        public static string json = Web.Get(link + "json.php");
+        readonly static string ver = "2.1.3";
+        readonly static internal string link = @"http://srv159232.hoster-test.ru/"; //Link
+        readonly static internal string handler = @"http://srv159232.hoster-test.ru/json.php"; //Handler
+        public static string json = Web.Get(handler); //Json data
         public Form1()
         {
-            Json.Deserialize();
+            Json.Deserialize(); //Prepare json
             InitializeComponent();
-            Nodes();
+            Nodes(); //Visualize cheats
         }
         public static void Clean()
         {
@@ -58,6 +60,13 @@ namespace Hack_Loader2
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            foreach (var process in Process.GetProcesses().Where(d => d.ProcessName.ToLower().StartsWith("hack-loader"))) //Close other processes
+            {
+                if(process.Id != Process.GetCurrentProcess().Id)
+                {
+                    process.Kill();
+                }
+            }
             checkBox2.Checked = true;
             bool DllsOk = false;
             try
@@ -80,8 +89,8 @@ namespace Hack_Loader2
                         }
                     }
 
-                } //Load
-                else
+                }
+                else //Download
                 {
                     Directory.CreateDirectory(workDir);
                     if (Web.DownloadFile(link+"dlls.zip", workDir + "dlls.zip"))
@@ -139,10 +148,16 @@ namespace Hack_Loader2
             if (main.SelectedNode.Parent == null)
             {
                 button1.Enabled = false;
+                button2.Enabled = true;
                 label4.Visible = false;
                 label5.Visible = false;
                 return;
             } //if not cheat
+            else
+            {
+                checkBox1.Enabled = true;
+                button2.Enabled = false;
+            }
             label4.Visible = true;
             label5.Visible = true;
             int vac = -1;
@@ -208,24 +223,24 @@ namespace Hack_Loader2
                 MessageBox.Show("Длл не найден... Что-то не так");
                 return;
             }
-            if (Helper.IsProcess("csgo"))
+            if (Helper.IsProcess("csgo")) //If csgo opened
             {
                 try
                 {
                     Process[] proc = Process.GetProcessesByName("csgo");
                     foreach(Process pro in proc)
                     {
-                        pro.Kill();
+                        pro.Kill(); //Close it
                     }
                 }
                 catch { }
-                label1.Text = CSGO.InjecttSafe(main.SelectedNode.Name, checkBox1.Checked);
+                label1.Text = CSGO.InjecttSafe(main.SelectedNode.Name, checkBox1.Checked); // Inject
             }
             else
             {
-                label1.Text = CSGO.InjecttSafe(main.SelectedNode.Name, checkBox1.Checked);
+                label1.Text = CSGO.InjecttSafe(main.SelectedNode.Name, checkBox1.Checked); // Inject
             }
-            if(label1.Text == "OK")
+            if(label1.Text == "OK") //Check status
             {
                 if (checkBox2.Checked)
                 {
@@ -238,5 +253,70 @@ namespace Hack_Loader2
                 label1.ForeColor = Color.Red;
             }
         } // Inject button
+        private void Button2_Click(object sender, EventArgs e) // Custom dll button
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog()) //Open dialog
+            {
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "DLL Files (*.dll)|*.dll|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
+                string filePath ="";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    filePath = openFileDialog.FileName.ToString();
+                }
+                if (!filePath.EndsWith(".dll"))
+                {
+                    label1.Text = "Not a dll";
+                    label1.ForeColor = Color.Red;
+                    return;
+                }
+                checkBox1.Enabled = false;
+                try
+                {
+                    File.Copy(filePath, workDir + Path.GetFileName(filePath), false); //Copy dll to workdir
+                }
+                catch
+                {
+                    label1.Text = "Copy err";
+                    label1.ForeColor = Color.Red;
+                    checkBox1.Enabled = true;
+                    return;
+                }
+
+                if (Helper.IsProcess("csgo"))
+                {
+                    try
+                    {
+                        Process[] proc = Process.GetProcessesByName("csgo");
+                        foreach (Process pro in proc)
+                        {
+                            pro.Kill();
+                        }
+                    }
+                    catch { }
+                    label1.Text = CSGO.InjecttSafe(Path.GetFileNameWithoutExtension(filePath), checkBox1.Checked);
+                    File.Delete(workDir + Path.GetFileName(filePath)); //Delete dll from workdir
+                }
+                else
+                {
+                    label1.Text = CSGO.InjecttSafe(Path.GetFileNameWithoutExtension(filePath), checkBox1.Checked);
+                    File.Delete(workDir + Path.GetFileName(filePath));
+                }
+                if (label1.Text == "OK")
+                {
+                    if (checkBox2.Checked)
+                    {
+                        Environment.Exit(0);
+                    }
+                    label1.ForeColor = Color.Green;
+                }
+                else
+                {
+                    label1.ForeColor = Color.Red;
+                }
+            }
+        } 
     }
 }

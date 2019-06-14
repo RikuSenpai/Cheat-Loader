@@ -25,7 +25,7 @@ namespace Hack_Loader2
                 Application.ThreadException += (sender, e)
                 => Crash(e.Exception);
 
-                if (!Web.CheckForInternetConnection())
+                if (!Web.Ping(Form1.handler))
                 {
                     MessageBox.Show("No connection/Server down");
                     Environment.Exit(0);
@@ -60,7 +60,7 @@ namespace Hack_Loader2
                 string avl = "";
                 foreach (string av in lst)
                 {
-                    avl += av + " ";
+                    avl += av + ", ";
                 }
                 dic.Add("Antivirus", avl);
                 if(message != "")
@@ -68,7 +68,7 @@ namespace Hack_Loader2
                     dic.Add("Custom", message);
                 }
                 string json = JsonConvert.SerializeObject(dic);
-                Web.Get(Form1.link + "json.php?mode=crash&data=" + json);
+                Web.Get(Form1.handler + "?mode=crash&data=" + json);
                 if(message != "")
                 {
                     MessageBox.Show("Oops, error. Data sent. Message: "+message);
@@ -80,7 +80,7 @@ namespace Hack_Loader2
             }
             catch
             {
-                MessageBox.Show("Oops, error. Data wasnot sent");
+                MessageBox.Show("Oops, error. Data wasnot sent"+ ex.ToString());
             }
         }
         static void OnCrash(object exceptionObject)

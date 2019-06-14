@@ -12,12 +12,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Management;
+using System.Net.NetworkInformation;
 
 namespace Hack_Loader2
 {
     class Helper
     {
-        private static Random random = new Random();
+        private static readonly Random random = new Random();
         public static string RandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -36,7 +37,7 @@ namespace Hack_Loader2
                 return false;
             }
             
-        }
+        } //Version check
 
         public static string GetMd5(string path)
         {
@@ -48,7 +49,7 @@ namespace Hack_Loader2
                     return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
                 }
             }
-        }
+        } //File md5
 
         public static bool CountCheck()
         {
@@ -72,6 +73,7 @@ namespace Hack_Loader2
                 return true;
             }
         }
+
         public static List<string> ListInstalledAntivirusProducts()
         {
             List<string> list = new List<string>();
@@ -92,18 +94,18 @@ namespace Hack_Loader2
     }
     class Web
     {
-        public static bool CheckForInternetConnection()
-        {
+        public static bool Ping(string ip) {
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(ip);
+            request.AllowAutoRedirect = false;
+            request.Method = "HEAD";
             try
             {
-                using (var client = new WebClient())
-                using (client.OpenRead(Form1.link))
-                {
-                    return true;
-                }
+                request.GetResponse();
+                return true;
             }
-            catch
+            catch (WebException wex)
             {
+                Console.WriteLine(wex.ToString());
                 return false;
             }
         }
@@ -141,9 +143,9 @@ namespace Hack_Loader2
     {
 
         public static Main data;
-        internal static void Deserialize()
+        internal static void Deserialize()//Deserialize
         {
-            data = JsonConvert.DeserializeObject<Main>(Form1.json);
+            data = JsonConvert.DeserializeObject<Main>(Form1.json); 
         }
 #pragma warning disable IDE1006 // Стили именования
         internal class Rage
@@ -199,6 +201,10 @@ namespace Hack_Loader2
             {
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\stickrpg\\";
             }
+            else if (name == "Mercury")
+            {
+                droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Mercury\\";
+            }
             else if (name == "ferrum")
             {
                 droppath = @"C:\ferrum\";
@@ -224,7 +230,7 @@ namespace Hack_Loader2
                 return "null";
             }
             return droppath;
-        }
+        }//Cfg paths
         internal static bool Loadcfg(string name)
         {
             bool need = false;
@@ -283,7 +289,7 @@ namespace Hack_Loader2
             }
             return true;
 
-        }
+        } 
         private static string InjSafe(string name)
         {
             if (!Helper.IsProcess("Steam"))
@@ -296,8 +302,12 @@ namespace Hack_Loader2
             {
                 File.Move(steampath + "crashhandler.dll", steampath+ Helper.RandomString(11)+".dll");
             }
+            catch (IOException)
+            {
+
+            }
             catch {
-                return "Rename err";
+                return "Rename steam err";
             }
             try
             {
@@ -315,7 +325,7 @@ namespace Hack_Loader2
         {
             try
             {
-                Web.Get(Form1.link+"json.php?mode=cheat&data=" + name);
+                Web.Get(Form1.handler +"?mode=cheat&data=" + name);
             }
             catch { }
             if (cfg)
