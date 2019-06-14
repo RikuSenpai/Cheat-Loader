@@ -17,7 +17,7 @@ namespace Hack_Loader2
 {
     class Helper
     {
-        private static Random random = new Random();
+        private static readonly Random random = new Random();
         public static string RandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -36,7 +36,7 @@ namespace Hack_Loader2
                 return false;
             }
             
-        }
+        } //Version check
 
         public static string GetMd5(string path)
         {
@@ -48,7 +48,7 @@ namespace Hack_Loader2
                     return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
                 }
             }
-        }
+        } //File md5
 
         public static bool CountCheck()
         {
@@ -72,6 +72,7 @@ namespace Hack_Loader2
                 return true;
             }
         }
+
         public static List<string> ListInstalledAntivirusProducts()
         {
             List<string> list = new List<string>();
@@ -141,9 +142,9 @@ namespace Hack_Loader2
     {
 
         public static Main data;
-        internal static void Deserialize()
+        internal static void Deserialize()//Deserialize
         {
-            data = JsonConvert.DeserializeObject<Main>(Form1.json);
+            data = JsonConvert.DeserializeObject<Main>(Form1.json); 
         }
 #pragma warning disable IDE1006 // Стили именования
         internal class Rage
@@ -224,7 +225,7 @@ namespace Hack_Loader2
                 return "null";
             }
             return droppath;
-        }
+        }//Cfg paths
         internal static bool Loadcfg(string name)
         {
             bool need = false;
@@ -283,7 +284,7 @@ namespace Hack_Loader2
             }
             return true;
 
-        }
+        } 
         private static string InjSafe(string name)
         {
             if (!Helper.IsProcess("Steam"))

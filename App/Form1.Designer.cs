@@ -66,8 +66,8 @@ namespace Hack_Loader2
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.main = new System.Windows.Forms.TreeView();
             this.button2 = new System.Windows.Forms.Button();
+            this.main = new System.Windows.Forms.TreeView();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -180,6 +180,17 @@ namespace Hack_Loader2
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Select cheat";
             // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.DarkGray;
+            this.button2.Location = new System.Drawing.Point(6, 136);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(299, 23);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "Custom dll";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
+            // 
             // main
             // 
             this.main.BackColor = System.Drawing.Color.DarkGray;
@@ -203,17 +214,6 @@ namespace Hack_Loader2
             this.main.TabStop = false;
             this.main.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Main_AfterSelect);
             // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.DarkGray;
-            this.button2.Location = new System.Drawing.Point(6, 136);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(299, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Custom dll";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.Button2_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -231,7 +231,7 @@ namespace Hack_Loader2
             this.MaximumSize = new System.Drawing.Size(331, 314);
             this.MinimumSize = new System.Drawing.Size(331, 314);
             this.Name = "Form1";
-            this.Text = "Hack Loader // yougame.biz";
+            this.Text = "Hack-Loader // yougame.biz";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

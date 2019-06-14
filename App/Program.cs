@@ -60,7 +60,7 @@ namespace Hack_Loader2
                 string avl = "";
                 foreach (string av in lst)
                 {
-                    avl += av + " ";
+                    avl += av + ", ";
                 }
                 dic.Add("Antivirus", avl);
                 if(message != "")
