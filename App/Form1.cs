@@ -16,10 +16,12 @@ namespace Hack_Loader2
 {
     public partial class Form1 : Form
     {
+        // ОБНОВИТЬ ВЕБ ЧАСТЬ!!! ДОБАВЛЕН MERCURY
         readonly static internal string workDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HackLoader\\";
         readonly static string ver = "2.1.3";
-        readonly static internal string link = "http://timoxa5651.siteme.org/hackloader/v2.0.1/"; //Link
-        public static string json = Web.Get(link + "json.php"); //Json data
+        readonly static internal string link = @"http://srv159232.hoster-test.ru/"; //Link
+        readonly static internal string handler = @"http://srv159232.hoster-test.ru/json.php"; //Handler
+        public static string json = Web.Get(handler); //Json data
         public Form1()
         {
             Json.Deserialize(); //Prepare json

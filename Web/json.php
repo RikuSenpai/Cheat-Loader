@@ -4,7 +4,7 @@ include("config.php");
 if($_REQUEST["mode"] == null){
 $cart = array(
     "md5" => md5_file("dlls.zip"),
-	"version" => "2.1",
+	"version" => "2.1.3",
 	"count" => "9",
 	"rage" =>array(
      array(
@@ -16,11 +16,6 @@ $cart = array(
 	 "name" => "stickrpg",
       "vac" => 0,
       "untrusted" => 0	
-	),
-	array(
-	 "name" => "samoware",
-      "vac" => 0,
-      "untrusted" => 1	
 	),
 	array(
 	 "name" => "Eternity.cc",
@@ -39,6 +34,11 @@ $cart = array(
       "untrusted" => 0	
 	),
 	array(
+	 "name" => "Mercury",
+      "vac" => 1,
+      "untrusted" => 0	
+	),
+	array(
 	 "name" => "Interium",
       "vac" => 1,
       "untrusted" => 0	
@@ -51,7 +51,7 @@ $cart = array(
 	array(
 	 "name" => "Interception",
       "vac" => 0,
-      "untrusted" => 1	
+      "untrusted" => 0	
 	)
 	));
  

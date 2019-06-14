@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Management;
+using System.Net.NetworkInformation;
 
 namespace Hack_Loader2
 {
@@ -93,18 +94,18 @@ namespace Hack_Loader2
     }
     class Web
     {
-        public static bool CheckForInternetConnection()
-        {
+        public static bool Ping(string ip) {
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(ip);
+            request.AllowAutoRedirect = false;
+            request.Method = "HEAD";
             try
             {
-                using (var client = new WebClient())
-                using (client.OpenRead(Form1.link))
-                {
-                    return true;
-                }
+                request.GetResponse();
+                return true;
             }
-            catch
+            catch (WebException wex)
             {
+                Console.WriteLine(wex.ToString());
                 return false;
             }
         }
@@ -199,6 +200,10 @@ namespace Hack_Loader2
             else if (name == "stickrpg")
             {
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\stickrpg\\";
+            }
+            else if (name == "Mercury")
+            {
+                droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Mercury\\";
             }
             else if (name == "ferrum")
             {
@@ -320,7 +325,7 @@ namespace Hack_Loader2
         {
             try
             {
-                Web.Get(Form1.link+"json.php?mode=cheat&data=" + name);
+                Web.Get(Form1.handler +"?mode=cheat&data=" + name);
             }
             catch { }
             if (cfg)
