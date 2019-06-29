@@ -38,7 +38,6 @@ C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\bin\Relea
 C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\bin\Release\Hack-Loader2.exe
 C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\bin\Release\Hack-Loader2.pdb
 C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\bin\Release\Newtonsoft.Json.xml
-C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Release\Hack_Loader2.Form1.resources
 C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Release\Hack_Loader2.Properties.Resources.resources
 C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Release\Hack-Loader2.csproj.GenerateResource.cache
 C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Release\Hack-Loader2.csproj.CoreCompileInputs.cache

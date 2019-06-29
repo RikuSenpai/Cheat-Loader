@@ -53,7 +53,7 @@ namespace Hack_Loader2
 
         public static bool CountCheck()
         {
-            string[] files = Directory.GetFiles(Form1.workDir, "*.dll", SearchOption.TopDirectoryOnly);
+            string[] files = Directory.GetFiles(Cons.workDir, "*.dll", SearchOption.TopDirectoryOnly);
             if(files.Length == Convert.ToInt16(Json.data.count))
             {
                 return true;
@@ -105,7 +105,7 @@ namespace Hack_Loader2
             }
             catch (WebException wex)
             {
-                Console.WriteLine(wex.ToString());
+                System.Console.WriteLine(wex.ToString());
                 return false;
             }
         }
@@ -145,7 +145,7 @@ namespace Hack_Loader2
         public static Main data;
         internal static void Deserialize()//Deserialize
         {
-            data = JsonConvert.DeserializeObject<Main>(Form1.json); 
+            data = JsonConvert.DeserializeObject<Main>(Hack_Loader2.Cons.json); 
         }
 #pragma warning disable IDE1006 // Стили именования
         internal class Rage
@@ -179,51 +179,43 @@ namespace Hack_Loader2
         internal static string GetCfgPath(string name)
         {
             string droppath;
-            if (name == "Eternity.cc")
+            if (name.Contains("Eternity.cc"))
             {
                 RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Valve\\Steam\\");
                 droppath = registryKey.GetValue("steampath").ToString();
                 droppath += "\\steamapps\\common\\Counter-Strike Global Offensive\\";
             }
-            else if (name == "pphud")
+            else if (name.Contains("pphud"))
             {
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\PPHUD Free\\";
             }
-            else if (name == "Interception")
+            else if (name.Contains("Interception"))
             {
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Interception\\";
             }
-            else if (name == "1tapgang")
+            else if (name.Contains("1tapgang"))
             {
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\1tapgang\\";
             }
-            else if (name == "stickrpg")
+            else if (name.Contains("stickrpg"))
             {
                 droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\stickrpg\\";
             }
-            else if (name == "Mercury")
-            {
-                droppath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Mercury\\";
-            }
-            else if (name == "ferrum")
-            {
-                droppath = @"C:\ferrum\";
-            }
-            else if (name == "M0ne0N")
+            else if (name.Contains("M0ne0N"))
             {
                 droppath = @"C:\M0ne0N Free\";
             }
-            else if (name == "Interium")
+            else if (name.Contains("Interium"))
             {
                 droppath = @"C:\Interium\Cfg\";
             }
-            else if (name == "samoware")
+            else if (name.Contains("echozy.pw"))
             {
-                droppath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\samoware\\";
+                droppath = @"C:\echozy.pw";
             }
-            else if (name == "xy0")
+            else if (name.Contains("KlarWare.cc"))
             {
-                droppath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\xyo\\";
+                droppath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\KlarWare\\";
             }
             else
             {
@@ -256,7 +248,7 @@ namespace Hack_Loader2
                 Program.Crash(ex, "On directory create cfg");
                 return true;
             }
-            string[] needFiles = Directory.GetFiles(Form1.workDir + "\\cfg\\" + name + "\\");
+            string[] needFiles = Directory.GetFiles(Cons.workDir + "cfg\\"+Path.GetFileName(name).Replace(".dll", ""));
             foreach (string fil in needFiles)
             {
                 string[] gotFile = Directory.GetFiles(droppath, Path.GetFileName(fil));
@@ -304,14 +296,13 @@ namespace Hack_Loader2
             }
             catch (IOException)
             {
-
             }
             catch {
                 return "Rename steam err";
             }
             try
             {
-                File.Copy(Form1.workDir + name + ".dll", steampath + "crashhandler.dll", true);
+                File.Copy(name, steampath + "crashhandler.dll", true);
             }
             catch(Exception e)
             {
@@ -325,7 +316,7 @@ namespace Hack_Loader2
         {
             try
             {
-                Web.Get(Form1.handler +"?mode=cheat&data=" + name);
+                Web.Get(Cons.handler +"?mode=cheat&data=" + name);
             }
             catch { }
             if (cfg)
