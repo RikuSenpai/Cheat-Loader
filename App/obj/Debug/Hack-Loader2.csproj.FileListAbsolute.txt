@@ -1,5 +1,4 @@
 C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack-Loader2.csprojAssemblyReference.cache
-C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack_Loader2.Form1.resources
 C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack_Loader2.Properties.Resources.resources
 C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack-Loader2.csproj.GenerateResource.cache
 C:\Users\Тимоха Картоха\Documents\GitHub\Cheat-Loader\App\obj\Debug\Hack-Loader2.csproj.CoreCompileInputs.cache

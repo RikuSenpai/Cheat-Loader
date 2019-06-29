@@ -18,28 +18,34 @@ namespace Hack_Loader2
         [STAThread]
         static void Main()
         {
+#if RELEASE
             try
             {
+
                 AppDomain.CurrentDomain.UnhandledException += (sender, e)
                 => OnCrash(e.ExceptionObject);
                 Application.ThreadException += (sender, e)
                 => Crash(e.Exception);
-
-                if (!Web.Ping(Form1.handler))
+#endif
+            if (!Web.Ping(Cons.handler))
                 {
                     MessageBox.Show("No connection/Server down");
                     Environment.Exit(0);
                 }
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new Form1());
-
+            System.Console.Title = "Hack-Loader v"+ Hack_Loader2.Cons.ver;
+                Json.Deserialize();
+                Hack_Loader2.Cons.Load();
+            System.Console.ForegroundColor = ConsoleColor.Green;
+            System.Console.WriteLine("Спасибо! Если все понравилось - напиши отзыв, мне будет приятно!");
+            System.Console.ReadLine();
+#if RELEASE
             }
             catch(Exception e)
             {
                 Crash(e);
             }
-            
+#endif
+
         }
         internal static void Crash(Exception ex, string message = "")
         {
@@ -68,7 +74,7 @@ namespace Hack_Loader2
                     dic.Add("Custom", message);
                 }
                 string json = JsonConvert.SerializeObject(dic);
-                Web.Get(Form1.handler + "?mode=crash&data=" + json);
+                Web.Get(Hack_Loader2.Cons.handler + "?mode=crash&data=" + json);
                 if(message != "")
                 {
                     MessageBox.Show("Oops, error. Data sent. Message: "+message);
