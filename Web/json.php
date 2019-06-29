@@ -4,13 +4,13 @@ include("config.php");
 if($_REQUEST["mode"] == null){
 $cart = array(
     "md5" => md5_file("dlls.zip"),
-	"version" => "2.1.3",
+	"version" => "2.2",
 	"count" => "9",
 	"rage" =>array(
      array(
-	 "name" => "xy0",
+	 "name" => "KlarWare.cc",
       "vac" => 0,
-      "untrusted" => 0	
+      "untrusted" => 1	
 	),
 	array(
 	 "name" => "stickrpg",
@@ -19,7 +19,7 @@ $cart = array(
 	),
 	array(
 	 "name" => "Eternity.cc",
-      "vac" => 1,
+      "vac" => 0,
       "untrusted" => 1	
 	),
 	array(
@@ -34,24 +34,24 @@ $cart = array(
       "untrusted" => 0	
 	),
 	array(
-	 "name" => "Mercury",
-      "vac" => 1,
+	 "name" => "echozy.pw",
+      "vac" => 0,
       "untrusted" => 0	
 	),
 	array(
 	 "name" => "Interium",
-      "vac" => 1,
+      "vac" => 0,
       "untrusted" => 0	
 	),
 	array(
 	 "name" => "M0ne0N",
-      "vac" => 2,
+      "vac" => 0,
       "untrusted" => 0	
 	),
 	array(
 	 "name" => "Interception",
       "vac" => 0,
-      "untrusted" => 0	
+      "untrusted" => 0
 	)
 	));
  
@@ -90,7 +90,7 @@ else
 else if($_REQUEST["mode"] == "ip"){
 	include("config.php");
 	
-	$result = mysqli_query($db, "SELECT * FROM test");
+	$result = mysqli_query($db, "SELECT * FROM test ORDER BY count DESC");
 	$count = 0;
 	echo "<table><tbody>";
 	while($row = $result->fetch_assoc()){
@@ -111,7 +111,7 @@ else if($_REQUEST['mode'] == "cheat"){
   </style>";
 	include("config.php");
 	if($_REQUEST['data'] == null){
-	$result = mysqli_query($db, "SELECT * FROM cheats");
+	$result = mysqli_query($db, "SELECT * FROM cheats ORDER BY count DESC");
 	echo "<table><tbody>";
 	while($row = $result->fetch_assoc()){
 		echo "<tr><td>".$row['cheat']."</td><td>".$row['count']."</td></tr>";
